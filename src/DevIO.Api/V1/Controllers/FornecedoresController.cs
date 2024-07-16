@@ -105,7 +105,7 @@ namespace DevIO.Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _enderecoRepository.Atualizar(_mapper.Map<Endereco>(enderecoViewModel));
+            _enderecoRepository.Atualizar(_mapper.Map<Endereco>(enderecoViewModel));
 
             return CustomResponse(enderecoViewModel);
         }

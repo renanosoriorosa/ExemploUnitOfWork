@@ -4,6 +4,7 @@ using DevIO.Business.Notificacoes;
 using DevIO.Business.Services;
 using DevIO.Data.Context;
 using DevIO.Data.Repository;
+using DevIO.Data.UoW;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -14,6 +15,7 @@ namespace DevIO.Api.Configuration
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
             services.AddScoped<MeuDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();

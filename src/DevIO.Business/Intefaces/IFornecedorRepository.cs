@@ -6,5 +6,6 @@ namespace DevIO.Business.Intefaces
     {
         Task<Fornecedor> ObterFornecedorEndereco(Guid id);
         Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id);
+        void RemoverEndenrecoFornecedor(Endereco endereco);
     }
 }

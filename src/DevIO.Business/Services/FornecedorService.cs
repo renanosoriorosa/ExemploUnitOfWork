@@ -11,7 +11,8 @@ namespace DevIO.Business.Services
 
         public FornecedorService(IFornecedorRepository fornecedorRepository, 
                                  IEnderecoRepository enderecoRepository,
-                                 INotificador notificador) : base(notificador)
+                                 INotificador notificador,
+                                 IUnitOfWork uow) : base(notificador, uow)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;
@@ -28,7 +29,8 @@ namespace DevIO.Business.Services
                 return false;
             }
 
-            await _fornecedorRepository.Adicionar(fornecedor);
+            _fornecedorRepository.Adicionar(fornecedor);
+            await Commit();
             return true;
         }
 
@@ -42,7 +44,8 @@ namespace DevIO.Business.Services
                 return false;
             }
 
-            await _fornecedorRepository.Atualizar(fornecedor);
+            _fornecedorRepository.Atualizar(fornecedor);
+            await Commit();
             return true;
         }
 
@@ -50,7 +53,8 @@ namespace DevIO.Business.Services
         {
             if (!ExecutarValidacao(new EnderecoValidation(), endereco)) return;
 
-            await _enderecoRepository.Atualizar(endereco);
+            _enderecoRepository.Atualizar(endereco);
+            await Commit();
         }
 
         public async Task<bool> Remover(Guid id)
@@ -65,10 +69,12 @@ namespace DevIO.Business.Services
 
             if (endereco != null)
             {
-                await _enderecoRepository.Remover(endereco.Id);
+                _enderecoRepository.Remover(endereco.Id);
             }
 
-            await _fornecedorRepository.Remover(id);
+            _fornecedorRepository.Remover(id);
+
+            await Commit();
 
             return true;
         }

@@ -9,7 +9,8 @@ namespace DevIO.Business.Services
         private readonly IProdutoRepository _produtoRepository;
 
         public ProdutoService(IProdutoRepository produtoRepository,
-                              INotificador notificador) : base(notificador)
+                              INotificador notificador,
+                              IUnitOfWork uow) : base(notificador, uow)
         {
             _produtoRepository = produtoRepository;
         }
@@ -18,19 +19,23 @@ namespace DevIO.Business.Services
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
 
-            await _produtoRepository.Adicionar(produto);
+            _produtoRepository.Adicionar(produto);
+
+            await Commit();
         }
 
         public async Task Atualizar(Produto produto)
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
 
-            await _produtoRepository.Atualizar(produto);
+            _produtoRepository.Atualizar(produto);
+            await Commit();
         }
 
         public async Task Remover(Guid id)
         {
-            await _produtoRepository.Remover(id);
+            _produtoRepository.Remover(id);
+            await Commit();
         }
 
         public void Dispose()

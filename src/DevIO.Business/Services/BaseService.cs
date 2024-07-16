@@ -9,10 +9,12 @@ namespace DevIO.Business.Services
     public abstract class BaseService
     {
         private readonly INotificador _notificador;
+        private readonly IUnitOfWork _uow;
 
-        protected BaseService(INotificador notificador)
+        protected BaseService(INotificador notificador, IUnitOfWork uow)
         {
             _notificador = notificador;
+            _uow = uow;
         }
 
         protected void Notificar(ValidationResult validationResult)
@@ -36,6 +38,14 @@ namespace DevIO.Business.Services
 
             Notificar(validator);
 
+            return false;
+        }
+
+        protected async Task<bool> Commit()
+        {
+            if(await _uow.Commit()) return true;
+
+            Notificar("Não foi possível salvar os dados no banco!");
             return false;
         }
     }

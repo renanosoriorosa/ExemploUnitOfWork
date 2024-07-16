@@ -63,7 +63,7 @@ namespace DevIO.Api.V1.Controllers
             }
 
             produtoViewModel.Imagem = imagemNome;
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return CustomResponse(produtoViewModel);
         }
@@ -84,7 +84,7 @@ namespace DevIO.Api.V1.Controllers
             }
 
             produtoImagemViewModel.Imagem = imgPrefixo + produtoImagemViewModel.ImagemUpload.FileName;
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoImagemViewModel));
+            _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoImagemViewModel));
 
             return CustomResponse(produtoImagemViewModel);
         }

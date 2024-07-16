@@ -25,5 +25,10 @@ namespace DevIO.Data.Repository
                 .Include(c => c.Endereco)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public void RemoverEndenrecoFornecedor(Endereco endereco)
+        {
+            Db.Enderecos.Remove(endereco);
+        }
     }
 }
